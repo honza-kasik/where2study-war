@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<body>
+
+	<ui:composition>
+		<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<a class="navbar-brand" href="#">Where2Study</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarsExampleDefault"
+			aria-controls="navbarsExampleDefault" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item #{activeMenuItemIndex == '0' ? 'active' : ''}">
+					<a class="nav-link" href="index.xhtml">
+						Domů<span class="sr-only">(jste zde)</span>
+					</a>
+				</li>
+				<li class="nav-item #{activeMenuItemIndex == '1' ? 'active' : ''}">
+					<a class="nav-link" href="about.xhtml">
+						O aplikaci
+					</a>
+				</li>
+			</ul>
+			
+			<ul class="navbar-nav ml-auto">
+	            <li class="nav-item dropdown">
+	            	<a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		            	Vítej, Uživateli <b class="caret"></b>
+		            </a>
+	                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+	                    <a href="/user/preferences" class="dropdown-item"><i class="icon-cog"></i> Preferences</a>
+	                    <a href="/help/support" class="dropdown-item"><i class="icon-envelope"></i> Contact Support</a>
+	                    <a href="/auth/logout" class="dropdown-item"><i class="icon-off"></i> Logout</a>
+	                </div>
+	            </li>
+	           </ul>
+		</div>
+		</nav>
+		
+	</ui:composition>
+</body>
+</html>
