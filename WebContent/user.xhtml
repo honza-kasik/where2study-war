@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+   	  xmlns:comp="http://xmlns.jcp.org/jsf/composite/components">
+    <head>
+    </head>
+    <body>
+        <ui:composition template="./templates/master.template.xhtml">
+
+            <ui:define name="menu">
+                <ui:include src="./templates/header-nav.template.xhtml ">
+                	<ui:param name="activeMenuItemIndex" value="0" />
+                </ui:include>
+            </ui:define>
+
+            <ui:define name="content">
+            	#{testService.runTest()}
+                <!-- TODO: editace zakladnich udaju -->
+                <!-- TODO: editace preferenci mistnosti -->
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>
