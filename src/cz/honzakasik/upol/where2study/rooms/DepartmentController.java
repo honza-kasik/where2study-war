@@ -9,6 +9,9 @@ import javax.faces.bean.RequestScoped;
 import cz.honzakasik.upol.where2study.room.Department;
 import cz.honzakasik.upol.where2study.room.DepartmentManager;
 
+/**
+ * Controller for department related tasks
+ */
 @RequestScoped
 @ManagedBean
 public class DepartmentController {

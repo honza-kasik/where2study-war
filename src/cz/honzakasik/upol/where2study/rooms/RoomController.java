@@ -12,6 +12,9 @@ import cz.honzakasik.upol.where2study.room.Room;
 import cz.honzakasik.upol.where2study.room.RoomManager;
 import cz.honzakasik.upol.where2study.schedule.Event;
 
+/**
+ * Controller for room related tasks
+ */
 @RequestScoped
 @ManagedBean
 public class RoomController {
@@ -23,6 +26,11 @@ public class RoomController {
 		return roomManager.getAllFreeRoomsNow();
 	}
 	
+	/**
+	 * Get limit of rooms sorted by time to next starting event
+	 * @param limit number to limit events
+	 * @return
+	 */
 	public List<Room> getLimitFreeRoomsSortedByTimeToNextEvent(int limit) {
 		return roomManager.getAllFreeRoomsNow().stream().sorted((r1, r2) -> {
 			Event e1 = r1.getSchedule().getNextEventStartingAfterNow();
@@ -40,6 +48,10 @@ public class RoomController {
 		}).limit(limit).collect(Collectors.toList());
 	}
 	
+	/**
+	 * Get all rooms
+	 * @return
+	 */
 	public List<Room> allRooms() {
 		return roomManager.getAllRooms();
 	}

@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
+/**
+ * Credential class which main use is to trnasport username and password from view to controller
+ */
 @RequestScoped
 @Named
 public class Credentials implements Serializable {

@@ -3,17 +3,19 @@ package cz.honzakasik.upol.where2study.users;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
-@RequestScoped
+@ViewScoped
 @ManagedBean
 public class EditUser {
 		
-	@Inject
-	private UserFormBackingBean userFormBackupBean;
+	private User user = new User();
 	
 	@Inject
 	private Login login;
+	
+	@Inject Credentials credentials;
 	
 	@EJB
 	private UserManager userManager;
@@ -21,53 +23,30 @@ public class EditUser {
 	public EditUser() {
 	}
 	
-	public UserFormBackingBean getUserFormBackupBean() {
-		return userFormBackupBean;
-	}
-	
-	public void setUserFormBackupBean(UserFormBackingBean userFormBackupBean) {
-		this.userFormBackupBean = userFormBackupBean;
-	}
-	
-	public UserFormBackingBean getPopulatedBackingBean() throws Exception {
-		User user = userManager.findUser(login.getCurrentUser().getEmail(), login.getCurrentUser().getPasswordHash());
-		UserFormBackingBean userFormBackupBean = new UserFormBackingBean();
-		userFormBackupBean.setEmail(user.getEmail());
-		userFormBackupBean.setFirstName(user.getFirstName());
-		userFormBackupBean.setLastName(user.getLastName());
-		userFormBackupBean.setPrefferedBuildings(user.getPrefferedBuildings());
-		userFormBackupBean.setPrefferedDepartments(user.getPrefferedDepartments());
-		userFormBackupBean.setPrefferedRooms(user.getPrefferedRooms());
-		return userFormBackupBean;
+	public User getUser() {
+		return user;
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * Register user stored in user field
+	 * @return
+	 */
 	public String register() {
-		User user = new User();
-		user.setEmail(userFormBackupBean.getEmail());
-		user.setFirstName(userFormBackupBean.getFirstName());
-		user.setLastName(userFormBackupBean.getLastName());
-		if (userFormBackupBean.getPassword() != null) {
-			user.setPasswordHash(UserUtils.getPasswdHash(userFormBackupBean.getPassword()));
-		}
-		user.setPrefferedBuildings(userFormBackupBean.getPrefferedBuildings());
-		user.setPrefferedDepartments(userFormBackupBean.getPrefferedDepartments());
-		user.setPrefferedRooms(userFormBackupBean.getPrefferedRooms());
+		user.setPasswordHash(UserUtils.getPasswdHash(credentials.getPassword()));
 		userManager.createUser(user);
 		return "index";
 	}
 	
+	/**
+	 * Edit user stored in login
+	 * @throws Exception
+	 */
 	public void editUser() throws Exception {
-		User user = userManager.findUser(login.getCurrentUser().getEmail(), login.getCurrentUser().getPasswordHash());
-		user.setEmail(userFormBackupBean.getEmail());
-		user.setFirstName(userFormBackupBean.getFirstName());
-		user.setLastName(userFormBackupBean.getLastName());
-		if (userFormBackupBean.getPassword() != null && !userFormBackupBean.getPassword().isEmpty()) {
-			user.setPasswordHash(UserUtils.getPasswdHash(userFormBackupBean.getPassword()));
-		}
-		user.setPrefferedBuildings(userFormBackupBean.getPrefferedBuildings());
-		user.setPrefferedDepartments(userFormBackupBean.getPrefferedDepartments());
-		user.setPrefferedRooms(userFormBackupBean.getPrefferedRooms());
-		userManager.saveUser(user);
+		userManager.saveUser(login.getCurrentUser());
 	}
 
 }

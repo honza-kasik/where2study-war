@@ -36,12 +36,13 @@
 				<c:if test="#{login.loggedIn}">
 					 <li class="nav-item dropdown">
 		            	<a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			            	Vítej, Uživateli <b class="caret"></b>
+			            	Vítej, #{login.currentUser.email} <b class="caret"></b>
 			            </a>
 		                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-		                    <a href="/user/preferences" class="dropdown-item"><i class="icon-cog"></i> Preferences</a>
-		                    <a href="/help/support" class="dropdown-item"><i class="icon-envelope"></i> Contact Support</a>
-		                    <a href="/auth/logout" class="dropdown-item"><i class="icon-off"></i> Logout</a>
+		                    <a href="user.xhtml" class="dropdown-item"><i class="icon-envelope"></i>Upravit profil</a>
+		                    <h:form>
+							    <h:commandLink class="dropdown-item" action="#{login.logout()}"><i class="icon-off"></i> Odhlásit se</h:commandLink>
+							</h:form>
 		                </div>
 		            </li>
 				</c:if>

@@ -22,7 +22,7 @@
 
 		<ui:define name="content">
 			<h:form>
-				<comp:register-form userBackingBean="#{editUser.userFormBackupBean}" />
+				<comp:register-form user="#{editUser.user}" />
 				<h:commandButton class="btn btn-primary" value="Registrovat se" action="#{editUser.register()}" />
 			</h:form>
 		</ui:define>

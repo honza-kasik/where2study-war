@@ -9,6 +9,9 @@ import javax.faces.bean.RequestScoped;
 import cz.honzakasik.upol.where2study.room.Building;
 import cz.honzakasik.upol.where2study.room.BuildingManager;
 
+/**
+ * Controller for building related tasks
+ */
 @RequestScoped
 @ManagedBean
 public class BuildingController {

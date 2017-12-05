@@ -9,6 +9,9 @@ import javax.xml.bind.JAXBException;
 
 import cz.honzakasik.upol.where2study.restclients.DataDownloader;
 
+/**
+ * Controller handling user related tasks
+ */
 @RequestScoped
 @ManagedBean
 public class UserController {
