@@ -3,17 +3,15 @@ package cz.honzakasik.upol.where2study.users;
 import java.io.Serializable;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import cz.honzakasik.upol.where2study.users.User;
 import cz.honzakasik.upol.where2study.users.UserManager;
 
 @SessionScoped
-@Named
+@ManagedBean
 public class Login implements Serializable {
 	
 	@Inject
@@ -27,15 +25,14 @@ public class Login implements Serializable {
 	private User currentUser;
 
 	public void login() throws Exception {
-		User user = userManager.findUser(credentials.getEmail(), credentials.getPasswordHash());
+		String passwordHash = UserUtils.getPasswdHash(credentials.getPassword());
+		User user = userManager.findUser(credentials.getEmail(), passwordHash);
 		if (user != null) {
 			this.currentUser = user;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Welcome, " + currentUser.getFirstname()));
 		}
 	}
 	
 	public void logout() {
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Goodbye, " + currentUser.getFirstname()));
 		currentUser = null;
 	}
 	

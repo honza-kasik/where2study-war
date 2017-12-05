@@ -12,7 +12,7 @@ public class Credentials implements Serializable {
 	private static final long serialVersionUID = 4728443359208315946L;
 	
 	private String email;
-	private String passwordHash;
+	private String password;
 	
 	public Credentials() {
 	}
@@ -25,12 +25,12 @@ public class Credentials implements Serializable {
 		this.email = email;
 	}
 
-	public String getPasswordHash() {
-		return passwordHash;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPasswordHash(String passwordHash) {
-		this.passwordHash = passwordHash;
+	public void setPassword(String password) {
+		this.password = password;
 	}	
 
 }

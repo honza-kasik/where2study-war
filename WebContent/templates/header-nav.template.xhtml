@@ -3,7 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <body>
 
@@ -32,16 +33,31 @@
 			</ul>
 			
 			<ul class="navbar-nav ml-auto">
-	            <li class="nav-item dropdown">
-	            	<a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		            	Vítej, Uživateli <b class="caret"></b>
-		            </a>
-	                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	                    <a href="/user/preferences" class="dropdown-item"><i class="icon-cog"></i> Preferences</a>
-	                    <a href="/help/support" class="dropdown-item"><i class="icon-envelope"></i> Contact Support</a>
-	                    <a href="/auth/logout" class="dropdown-item"><i class="icon-off"></i> Logout</a>
-	                </div>
-	            </li>
+				<c:if test="#{login.loggedIn}">
+					 <li class="nav-item dropdown">
+		            	<a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			            	Vítej, Uživateli <b class="caret"></b>
+			            </a>
+		                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+		                    <a href="/user/preferences" class="dropdown-item"><i class="icon-cog"></i> Preferences</a>
+		                    <a href="/help/support" class="dropdown-item"><i class="icon-envelope"></i> Contact Support</a>
+		                    <a href="/auth/logout" class="dropdown-item"><i class="icon-off"></i> Logout</a>
+		                </div>
+		            </li>
+				</c:if>
+				<c:if test="#{not login.loggedIn}">
+					<li class="nav-item #{activeMenuItemIndex == '2' ? 'active' : ''}">
+		            	<a href="register.xhtml" class="nav-link">
+			            	Registrovat
+			            </a>
+		            </li>
+		            <li class="nav-item #{activeMenuItemIndex == '3' ? 'active' : ''}">
+		            	<a href="login.xhtml" class="nav-link">
+			            	Přihlásit se
+			            </a>
+		            </li>
+				</c:if>
+	           
 	           </ul>
 		</div>
 		</nav>
