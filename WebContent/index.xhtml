@@ -21,6 +21,12 @@
 		</ui:define>
 
 		<ui:define name="content">
+					<h:form>
+				<h:commandButton value="MyButton"
+					action="#{userController.downloadAllData()}"></h:commandButton>
+
+			</h:form>
+		
 			<h2>Volné místnosti právě teď</h2>
 			<comp:timetable />		
 		</ui:define>

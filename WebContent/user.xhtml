@@ -23,7 +23,7 @@
 			</h:form>
 
 			<h:form>
-				<comp:register-form user="#{login.currentUser}" />
+				<comp:register-form user="#{editUser.getPopulatedUser(login.currentUser)}" />
 				<h:commandButton class="btn btn-primary" value="Editovat"
 					action="#{editUser.editUser()}" />
 			</h:form>

@@ -2,12 +2,13 @@ package cz.honzakasik.upol.where2study.users;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 @ViewScoped
 @ManagedBean
+@Transactional
 public class EditUser {
 		
 	private User user = new User();
@@ -15,7 +16,8 @@ public class EditUser {
 	@Inject
 	private Login login;
 	
-	@Inject Credentials credentials;
+	@Inject
+	private Credentials credentials;
 	
 	@EJB
 	private UserManager userManager;
@@ -46,7 +48,14 @@ public class EditUser {
 	 * @throws Exception
 	 */
 	public void editUser() throws Exception {
-		userManager.saveUser(login.getCurrentUser());
+		userManager.saveUser(user);
+	}
+	
+	public User getPopulatedUser(User currentUser) throws Exception {
+		String email = currentUser.getEmail();
+		String passwordHash = currentUser.getPasswordHash();
+		this.user = userManager.findUser(email, passwordHash);
+		return user;
 	}
 
 }
