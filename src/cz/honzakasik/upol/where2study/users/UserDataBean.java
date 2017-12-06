@@ -1,6 +1,9 @@
 package cz.honzakasik.upol.where2study.users;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,20 +14,40 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.honzakasik.upol.where2study.room.Building;
+import cz.honzakasik.upol.where2study.room.BuildingManager;
+import cz.honzakasik.upol.where2study.room.Department;
+import cz.honzakasik.upol.where2study.room.DepartmentManager;
+import cz.honzakasik.upol.where2study.room.Room;
+import cz.honzakasik.upol.where2study.room.RoomManager;
+
 @ViewScoped
 @ManagedBean
-public class UserDataBean {
-	
+public class UserDataBean implements Serializable {
+
+	private static final long serialVersionUID = -3832277186724298077L;
+
 	private static final Logger log = LoggerFactory.getLogger(UserDataBean.class);
 	
-	//CDI vs JSF - not possible to use Inject here, since the injected bean is not a singleton
+	private static final String[] EMPTY_STRING_ARRAY = {};
+	
+	//CDI vs JSF - not possible to use Inject here, since the injected bean is not a singleton (will not behave as one)
 	@ManagedProperty(value = "#{login}")
 	private Login login;
 	
 	@EJB
 	private UserManager userManager;
 	
-	private int id;
+	@EJB
+	private BuildingManager buildingManager;
+	
+	@EJB
+	private DepartmentManager departmentManager;
+	
+	@EJB
+	private RoomManager roomManager;
+	
+	private Integer id;
 	
 	private String firstName;
 	private String lastName;
@@ -35,12 +58,23 @@ public class UserDataBean {
 	private String[] preferredDepartments;
 	private String[] preferredRooms;
 	
+	/**
+	 * Populates this bean from logged user's instance
+	 */
+	@Transactional
 	public void populateWithLoggedUserData() {
-		final User u = userManager.findUser(login.getCurrentUser().getId());
-		id = u.getId();
-		firstName = u.getFirstName();
-		lastName = u.getLastName();
-		email = u.getEmail();
+		if (login.isLoggedIn()) {
+			final User u = userManager.findUser(login.getCurrentUser().getId());
+			id = u.getId();
+			firstName = u.getFirstName();
+			lastName = u.getLastName();
+			email = u.getEmail();
+			preferredBuildings = buildingSetToIdArray(u.getPrefferedBuildings());
+			preferredDepartments = departmentSetToIdArray(u.getPrefferedDepartments());
+			preferredRooms = roomSetToIdArray(u.getPrefferedRooms());
+		} else {
+			log.warn("Accessed to user edit form with no logged user!");
+		}
 	}
 	
 	/**
@@ -48,12 +82,19 @@ public class UserDataBean {
 	 */
 	@Transactional
 	public void save() {
-		final User u = userManager.findUser(id);
-		if (email != null || !email.isEmpty()) u.setEmail(email);
-		log.info("First name: {}", firstName);
-		u.setFirstName(firstName);
-		u.setLastName(lastName);
-		userManager.saveUser(u);
+		if (this.id != null) {
+			final User u = userManager.findUser(id);
+			if (email != null || !email.isEmpty()) u.setEmail(email);
+			log.info("First name: {}", firstName);
+			u.setFirstName(firstName);
+			u.setLastName(lastName);
+			u.setPrefferedBuildings(idArrayToBuildingSet(preferredBuildings));
+			u.setPrefferedDepartments(idArrayToDepartmentSet(preferredDepartments));
+			u.setPrefferedRooms(idArrayToRoomSet(preferredRooms));
+			userManager.saveUser(u);
+		} else {
+			log.warn("ID is null, bean probably wasn't populated before! Nothing will be saved!");
+		}
 	}
 	
 	/**
@@ -67,6 +108,78 @@ public class UserDataBean {
 		u.setFirstName(firstName);
 		u.setLastName(lastName);
 		userManager.createUser(u);
+	}
+	
+	//TODO make this a converter
+	private String[] buildingSetToIdArray(Set<Building> buildings) {
+		if (buildings == null || buildings.isEmpty()) {
+			return EMPTY_STRING_ARRAY;
+		}
+		String[] buildingIds = new String[buildings.size()];
+		int i = 0;
+		for (Building building : buildings) {
+			buildingIds[i] = building.getAbbreviation();
+			i++;
+		}
+		return buildingIds;
+	}
+	
+	//TODO make this a converter
+	private Set<Building> idArrayToBuildingSet(String[] ids) {
+		if (ids == null || ids.length == 0) {
+			return new HashSet<>();
+		}
+		Set<Building> buildings = new HashSet<>();
+		for (String id : ids) {
+			buildings.add(buildingManager.getBuildingById(id));
+		}
+		return buildings;
+		
+	}
+	
+	//TODO make this a converter
+	private String[] departmentSetToIdArray(Set<Department> departments) {
+		String[] departmentIds = new String[departments.size()];
+		int i = 0;
+		for (Department department : departments) {
+			departmentIds[i] = department.getAbbreviation();
+			i++;
+		}
+		return departmentIds;
+	}
+	
+	//TODO make this a converter
+	private Set<Department> idArrayToDepartmentSet(String[] ids) {
+		if (ids == null || ids.length == 0) {
+			return new HashSet<>();
+		}
+		Set<Department> departments = new HashSet<>();
+		for (String id : ids) {
+			departments.add(departmentManager.getDepartmentById(id));
+		}
+		return departments;
+	}
+	
+	//TODO make this a converter
+	private String[] roomSetToIdArray(Set<Room> rooms) {
+		String[] roomIds = new String[rooms.size()];
+		int i = 0;
+		for (Room room : rooms) {
+			roomIds[i] = String.valueOf(room.getId());
+			i++;
+		}
+		return roomIds;
+	}
+	
+	private Set<Room> idArrayToRoomSet(String[] ids) {
+		if (ids == null || ids.length == 0) {
+			return new HashSet<>();
+		}
+		Set<Room> rooms = new HashSet<>();
+		for (String id : ids) {
+			rooms.add(roomManager.getRoom(Integer.valueOf(id)));
+		}
+		return rooms;
 	}
 
 	public Login getLogin() {
