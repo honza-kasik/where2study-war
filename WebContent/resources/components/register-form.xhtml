@@ -10,7 +10,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <cc:interface>
-	<cc:attribute name="user" required="true" />
+	<cc:attribute name="userDataBean" required="true" />
 	<cc:attribute name="credentials" required="true" />
 </cc:interface>
 
@@ -18,14 +18,14 @@
 	<div class="form-group">
 		<label for="email">Email</label>
 		<h:inputText a:type="email" class="form-control" id="email"
-			a:placeholder="Vložte email" value="#{cc.attrs.user.email}" required="true" />
+			a:placeholder="Vložte email" value="#{cc.attrs.userDataBean.email}" required="true" />
 		<small id="emailHelp" class="form-text text-muted">Nikdy
 			nebudeme sdílet Váš email s nikým jiným.</small>
 	</div>
 	<div class="form-group">
 		<label for="password">Heslo</label>
 		<h:inputText a:type="password" class="form-control" id="password"
-			value="#{credentials.password}" required="true" />
+			value="#{cc.attrs.userDataBean.password}" required="true" />
 	</div>
 	<div></div>
 	<div class="row">
@@ -33,19 +33,19 @@
 			<label for="firstName">Jméno</label>
 			<h:inputText type="text" class="form-control"
 				a:placeholder="Vložte jméno" id="firstName"
-				value="#{cc.attrs.user.firstName}" />
+				value="#{cc.attrs.userDataBean.firstName}" />
 		</div>
 		<div class="form-group col-6">
 			<label for="lastName">Příjmení</label>
 			<h:inputText type="text" class="form-control"
 				a:placeholder="Vložte příjmení" id="secondName"
-				value="#{cc.attrs.user.lastName}" />
+				value="#{cc.attrs.userDataBean.lastName}" />
 		</div>
 	</div>
-	<div class="form-group">
+	<!--  <div class="form-group">
 		<label for="building">Zvolte preferované budovy</label>
 		<h:selectManyListbox class="form-control" id="building"
-			value="#{cc.attrs.user.prefferedBuildings}" size="5">
+			value="#{cc.attrs.userDataBean.preferredBuildings}" size="5">
 			<f:selectItems value="#{buildingController.allBuildings}"
 				var="b"
 				itemLabel="#{b.abbreviation} – #{b.street}, #{b.number}"
@@ -54,18 +54,18 @@
 	</div>
 	<div class="form-group">
 		<label for="department">Zvolte preferovaná pracoviště</label>
-		<h:selectManyListbox class="form-control" id="department" value="#{cc.attrs.user.prefferedDepartments}" size="5">
+		<h:selectManyListbox class="form-control" id="department" value="#{cc.attrs.userDataBean.preferredDepartments}" size="5">
 			<f:selectItem itemLabel="Vyberte pracoviště" noSelectionOption="true" />
 			<f:selectItems value="#{departmentController.allDepartments}" var="d" itemLabel="#{d.abbreviation} – #{d.fullName}" />
 		</h:selectManyListbox>
 	</div>
 	<div class="form-group">
 		<label for="rooms">Zvolte preferované místnosti</label>
-		<h:selectManyListbox class="form-control" id="rooms" value="#{cc.attrs.user.prefferedRooms}" size="5">
+		<h:selectManyListbox class="form-control" id="rooms" value="#{cc.attrs.userDataBean.preferredRooms}" size="5">
 			<f:selectItem itemLabel="Vyberte místnosti" noSelectionOption="true" />
 			<f:selectItems value="#{roomController.allFreeRoomsNow}" var="r" itemLabel="#{r.building.abbreviation}-#{r.roomNumber}" />				
 		</h:selectManyListbox>
-	</div>
+	</div>-->
 
 </cc:implementation>
 </html>

@@ -22,8 +22,8 @@
 
 		<ui:define name="content">
 			<h:form>
-				<comp:register-form user="#{editUser.user}" />
-				<h:commandButton class="btn btn-primary" value="Registrovat se" action="#{editUser.register()}" />
+				<comp:register-form userDataBean="#{userDataBean}" />
+				<h:commandButton class="btn btn-primary" value="Registrovat se" action="#{userDataBean.register()}" />
 			</h:form>
 						<ui:debug hotkey="x"/>
 		
