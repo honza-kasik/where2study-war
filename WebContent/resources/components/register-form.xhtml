@@ -11,7 +11,7 @@
 
 <cc:interface>
 	<cc:attribute name="userDataBean" required="true" />
-	<cc:attribute name="credentials" required="true" />
+	<cc:attribute name="isEditing" default="${false}" required="false" />
 </cc:interface>
 
 <cc:implementation>
@@ -25,7 +25,7 @@
 	<div class="form-group">
 		<label for="password">Heslo</label>
 		<h:inputText a:type="password" class="form-control" id="password"
-			value="#{cc.attrs.userDataBean.password}" required="true" />
+			value="#{cc.attrs.userDataBean.password}" required="#{not cc.attrs.isEditing}" />
 	</div>
 	<div></div>
 	<div class="row">

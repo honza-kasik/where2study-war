@@ -6,7 +6,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import cz.honzakasik.upol.where2study.users.User;
 import cz.honzakasik.upol.where2study.users.UserManager;
@@ -14,7 +13,6 @@ import cz.honzakasik.upol.where2study.users.UserManager;
 /**
  * Controller for login related tasks
  */
-@Singleton
 @SessionScoped
 @ManagedBean
 public class Login implements Serializable {

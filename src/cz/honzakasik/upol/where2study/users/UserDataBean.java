@@ -4,8 +4,8 @@ import java.util.Arrays;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -17,7 +17,8 @@ public class UserDataBean {
 	
 	private static final Logger log = LoggerFactory.getLogger(UserDataBean.class);
 	
-	@Inject
+	//CDI vs JSF - not possible to use Inject here, since the injected bean is not a singleton
+	@ManagedProperty(value = "#{login}")
 	private Login login;
 	
 	@EJB
@@ -49,8 +50,10 @@ public class UserDataBean {
 	public void save() {
 		final User u = userManager.findUser(id);
 		if (email != null || !email.isEmpty()) u.setEmail(email);
+		log.info("First name: {}", firstName);
 		u.setFirstName(firstName);
 		u.setLastName(lastName);
+		userManager.saveUser(u);
 	}
 	
 	/**
