@@ -55,7 +55,6 @@
 	<div class="form-group">
 		<label for="department">Zvolte preferovaná pracoviště</label>
 		<h:selectManyListbox class="form-control" id="department" value="#{cc.attrs.userDataBean.preferredDepartments}" size="5">
-			<f:selectItem itemLabel="Vyberte pracoviště" noSelectionOption="true" />
 			<f:selectItems value="#{departmentController.allDepartments}" var="d"
 				itemLabel="#{d.abbreviation} – #{d.fullName}"
 				itemValue="#{d.abbreviation}"/>
@@ -64,10 +63,9 @@
 	<div class="form-group">
 		<label for="rooms">Zvolte preferované místnosti</label>
 		<h:selectManyListbox class="form-control" id="rooms" value="#{cc.attrs.userDataBean.preferredRooms}" size="5">
-			<f:selectItem itemLabel="Vyberte místnosti" noSelectionOption="true" />
 			<f:selectItems value="#{roomController.allFreeRoomsNow}" var="r"
 				itemLabel="#{r.building.abbreviation}-#{r.roomNumber}"
-				itemValue="${r.id}" />				
+				itemValue="${r.id}" />		
 		</h:selectManyListbox>
 	</div>
 

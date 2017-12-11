@@ -31,19 +31,21 @@ public class Login implements Serializable {
 	 * Login user
 	 * @throws Exception
 	 */
-	public void login() throws Exception {
+	public String login() throws Exception {
 		String passwordHash = UserUtils.getPasswdHash(credentials.getPassword());
 		User user = userManager.findUser(credentials.getEmail(), passwordHash);
 		if (user != null) {
 			this.currentUser = user;
 		}
+		return "index?faces-redirect=true";
 	}
 	
 	/**
 	 * Log out user
 	 */
-	public void logout() {
+	public String logout() {
 		currentUser = null;
+		return "index?faces-redirect=true";
 	}
 	
 	/**

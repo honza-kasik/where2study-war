@@ -97,6 +97,11 @@ public class UserDataBean implements Serializable {
 		}
 	}
 	
+	public String saveAndLeave() {
+		save();
+		return "index?faces-redirect=true";
+	}
+	
 	/**
 	 * Create new user with data
 	 */
@@ -107,6 +112,9 @@ public class UserDataBean implements Serializable {
 		u.setPasswordHash(UserUtils.getPasswdHash(password));
 		u.setFirstName(firstName);
 		u.setLastName(lastName);
+		u.setPrefferedBuildings(idArrayToBuildingSet(preferredBuildings));
+		u.setPrefferedDepartments(idArrayToDepartmentSet(preferredDepartments));
+		u.setPrefferedRooms(idArrayToRoomSet(preferredRooms));
 		userManager.createUser(u);
 	}
 	
@@ -171,6 +179,7 @@ public class UserDataBean implements Serializable {
 		return roomIds;
 	}
 	
+	//TODO make this a converter
 	private Set<Room> idArrayToRoomSet(String[] ids) {
 		if (ids == null || ids.length == 0) {
 			return new HashSet<>();
@@ -268,7 +277,7 @@ public class UserDataBean implements Serializable {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + Arrays.hashCode(preferredBuildings);
@@ -296,7 +305,10 @@ public class UserDataBean implements Serializable {
 				return false;
 		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (lastName == null) {
 			if (other.lastName != null)

@@ -4,8 +4,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:comp="http://xmlns.jcp.org/jsf/composite/components"
-      xmlns:c="http://java.sun.com/jstl/core"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <head>
 </head>
 <body>
@@ -18,21 +18,27 @@
 		</ui:define>
 
 		<ui:define name="content">
-			<h:form>
-				<h:commandButton value="MyButton"
-					action="#{userController.downloadAllData()}"></h:commandButton>
-
-			</h:form>
-
+			<c:if test="#{login.loggedIn and login.currentUser.admin}">
+				<h:form>
+					<h:commandButton class="btn btn-secondary mr-1" value="Stáhnout všechna data"
+						action="#{dataManageController.downloadAllData()}"></h:commandButton>
+					<h:commandButton class="btn btn-secondary" value="Odstranit všechna data"
+						action="#{dataManageController.removeAllData()}"></h:commandButton>
+				</h:form>
+			</c:if>
+			
 			<h:form>
 				<c:if test="#{login.loggedIn}">
-							<f:metadata>
-			    <f:viewAction action="#{userDataBean.populateWithLoggedUserData()}" />
-			</f:metadata>
-				
-					<comp:register-form userDataBean="#{userDataBean}" isEditing="${true}" />
-					<h:commandButton class="btn btn-primary" value="Editovat"
+					<f:metadata>
+						<f:viewAction
+							action="#{userDataBean.populateWithLoggedUserData()}" />
+					</f:metadata>
+					<comp:register-form userDataBean="#{userDataBean}"
+						isEditing="${true}" />
+					<h:commandButton class="btn btn-primary mr-1" value="Uložit"
 						action="#{userDataBean.save()}" />
+					<h:commandButton class="btn btn-secondary" value="Uložit a odejít"
+						action="#{userDataBean.saveAndLeave()}" />
 				</c:if>
 			</h:form>
 
