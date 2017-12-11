@@ -22,6 +22,7 @@
 	
 	<script type="text/javascript">
 		var timetable = new Timetable();
+		timetable.setScope(#{roomController.hour}, 0);
 	
 		timetable.addLocations([
 	        <ui:repeat value="#{freeRooms}" var="room">

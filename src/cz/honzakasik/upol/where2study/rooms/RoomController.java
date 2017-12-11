@@ -84,4 +84,12 @@ public class RoomController {
 	public void setLogin(Login login) {
 		this.login = login;
 	}
+	
+	/**
+	 * Get current hour for timetable offset...
+	 * @return current hour
+	 */
+	public String getHour() {
+		return String.valueOf(LocalTime.now().getHour());
+	}
 }
